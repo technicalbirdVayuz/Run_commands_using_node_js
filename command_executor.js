@@ -48,7 +48,7 @@ var exec = require('child_process').exec;
 
 console.log('Starting directory: ' + process.cwd());
 try {
-	  process.chdir('cd /root/OrthancBuild2/');
+	  process.chdir('/root/OrthancBuild2/');
 	  console.log('New directory: ' + process.cwd());
 	 var cmd = 'screen';
 	
