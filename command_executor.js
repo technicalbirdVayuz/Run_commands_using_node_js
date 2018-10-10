@@ -94,8 +94,22 @@ exec("pidof Orthanc")
 	        if(stdout!="" || stdout!= undefined){	
 					exec("kill -9 " +stdout)
 					    .then(function (result) {
-					    
-					    	try {
+					    start_orthanc_server();
+					    	
+					    })
+					    .catch(function (err) {
+					        console.error('ERROR: ', err);
+					    });
+	        }
+	    })
+	    .catch(function (err) {
+	        console.error('ERROR: ', err);
+	        console.error("STARTING");
+	    	start_orthanc_server();
+	    });
+
+function start_orthanc_server(){
+					try {
 							process.chdir('/root/OrthancBuild2/');
 							console.log('New directory: ' + process.cwd());
 											    	
@@ -111,17 +125,8 @@ exec("pidof Orthanc")
 							    .catch(function (err) {
 							        console.error('ERROR: ', err);
 							    });
-
 							}
 								catch (err) {
-									console.log('chdir: ' + err);
-								}
-					    })
-					    .catch(function (err) {
-					        console.error('ERROR: ', err);
-					    });
-	        }
-	    })
-	    .catch(function (err) {
-	        console.error('ERROR: ', err);
-	    });
+									console.log('error while starting: ' + err);
+							}
+}
