@@ -42,6 +42,9 @@ spawn("",['./Orthanc'], { capture: [ 'stdout', 'stderr' ]})
   })
 }*/
 
+/******************************************* *******************/
+
+/*
 
 var exec = require('child-process-promise').exec;
 // var exec = require('child_process').exec;
@@ -81,3 +84,44 @@ try {
 catch (err) {
   console.log('chdir: ' + err);
 }
+*/
+
+var exec = require('child-process-promise').exec;
+exec("pidof Orthanc")
+	    .then(function (result) {
+	        var stdout = result.stdout;
+	        var stderr = result.stderr;
+	        if(stdout!="" || stdout!= undefined){	
+					exec("kill -9 " +stdout)
+					    .then(function (result) {
+					    
+					    	try {
+							process.chdir('/root/OrthancBuild2/');
+							console.log('New directory: ' + process.cwd());
+											    	
+						    	var cmd = './Orthanc Configuration.json';
+								
+								exec(cmd)
+							    .then(function (result) {
+							        var stdout = result.stdout;
+							        var stderr = result.stderr;
+							        console.log('stdout: ', stdout);
+							        console.log('stderr: ', stderr);
+							    })
+							    .catch(function (err) {
+							        console.error('ERROR: ', err);
+							    });
+
+							}
+								catch (err) {
+									console.log('chdir: ' + err);
+								}
+					    })
+					    .catch(function (err) {
+					        console.error('ERROR: ', err);
+					    });
+	        }
+	    })
+	    .catch(function (err) {
+	        console.error('ERROR: ', err);
+	    });
