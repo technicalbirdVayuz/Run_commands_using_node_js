@@ -43,8 +43,8 @@ spawn("",['./Orthanc'], { capture: [ 'stdout', 'stderr' ]})
 }*/
 
 
-// var exec = require('child-process-promise').exec;
-var exec = require('child_process').exec;
+var exec = require('child-process-promise').exec;
+// var exec = require('child_process').exec;
 
 console.log('Starting directory: ' + process.cwd());
 try {
@@ -52,20 +52,31 @@ try {
 	  console.log('New directory: ' + process.cwd());
 	 var cmd = 'screen';
 	
-	exec(cmd, function(error, stdout, stderr) {
-	  // command output is in stdout
-	  console.log(error);
-	  console.log(stdout);
-	  console.log(stderr);
-	});
+	exec('screen')
+    .then(function (result) {
+        var stdout = result.stdout;
+        var stderr = result.stderr;
+        console.log('stdout: ', stdout);
+    	
+    	var cmd = './Orthanc Configuration.json';
+		
+		exec(cmd)
+	    .then(function (result) {
+	        var stdout = result.stdout;
+	        var stderr = result.stderr;
+	        console.log('stdout: ', stdout);
+	        console.log('stderr: ', stderr);
+	    })
+	    .catch(function (err) {
+	        console.error('ERROR: ', err);
+	    });
 
-	 var cmd = './Orthanc Configuration.json';
-	 exec(cmd, function(error, stdout, stderr) {
-	  console.log(error);
-	  console.log(stdout);
-	  console.log(stderr);
-	});
+    })
+    .catch(function (err) {
+        console.error('ERROR: ', err);
+    });
 
+	
 }
 catch (err) {
   console.log('chdir: ' + err);
