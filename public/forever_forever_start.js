@@ -1,5 +1,5 @@
 var exec = require('child-process-promise').exec;
-exec("forever start app.js")
+exec("forever start command_executor.js")
 	    .then(function (result) {
 	        console.log("Server started");
 	    })
